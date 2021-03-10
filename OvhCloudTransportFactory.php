@@ -35,6 +35,7 @@ final class OvhCloudTransportFactory extends AbstractTransportFactory
         $applicationKey = $this->getUser($dsn);
         $applicationSecret = $this->getPassword($dsn);
         $consumerKey = $dsn->getOption('consumer_key');
+        $sender = $dsn->getOption('sender');
 
         if (!$consumerKey) {
             throw new IncompleteDsnException('Missing consumer_key.', $dsn->getOriginalDsn());
@@ -49,7 +50,7 @@ final class OvhCloudTransportFactory extends AbstractTransportFactory
         $host = 'default' === $dsn->getHost() ? null : $dsn->getHost();
         $port = $dsn->getPort();
 
-        return (new OvhCloudTransport($applicationKey, $applicationSecret, $consumerKey, $serviceName, $this->client, $this->dispatcher))->setHost($host)->setPort($port);
+        return (new OvhCloudTransport($applicationKey, $applicationSecret, $consumerKey, $serviceName, $this->client, $this->dispatcher))->setHost($host)->setPort($port)->setSender($sender);;
     }
 
     protected function getSupportedSchemes(): array
